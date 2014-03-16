@@ -7,18 +7,18 @@
  *
  * Description: This program can login to a site and download multiple pages.
  * This program will download pages from starting to ending index.
- * e.g. Download URLs ending with integer like http://exampe.com/1 to 
+ * e.g. Download URLs ending with integer like http://exampe.com/1 to
  * http://example.com/100
  *
  * Usage: downloader
- * 
+ *
  * Parameters:
  *    URL: URL of webpage to download
  *    User ID: User Id to login
  *    Password: Password to login
  *    Start Index: Starting index
  *    Ending Index: Ending index
- *    
+ *
  ***************************************************************************/
 #include <stdio.h>
 #define CURL_STATICLIB
@@ -90,7 +90,7 @@ int main(void)
     output.size = 0;
     for (i = intStartIdx; i <= intEndIdx; i++)
     {
-        strURL[0]='\0';
+        strURL[0] = '\0';
         strcat(strURL, strInitURL);
         sprintf(strIdx, "%d", i);
         strcat(strURL, strIdx);
@@ -118,21 +118,21 @@ int main(void)
         curl_easy_setopt(myHandle, CURLOPT_POSTFIELDS, data);
         curl_easy_perform( myHandle );
         strURL[0] = '\0';
+        FILE *fp;
+        fp = fopen( "data.html", "a");
+        if ( !fp )
+            return 1;
+        fprintf(fp, output.buffer );
+        fclose( fp );
+
+        if (output.buffer)
+        {
+            free ( output.buffer );
+            output.buffer = 0;
+            output.size = 0;
+        }
         printf("%c", '=');
     }
     curl_easy_cleanup( myHandle );
-    FILE *fp;
-    fp = fopen( "data.html", "w");
-    if ( !fp )
-        return 1;
-    fprintf(fp, output.buffer );
-    fclose( fp );
-
-    if ( output.buffer )
-    {
-        free ( output.buffer );
-        output.buffer = 0;
-        output.size = 0;
-    }
     return 0;
 }
