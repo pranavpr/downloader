@@ -94,19 +94,19 @@ int main(void)
         strcat(strURL, strInitURL);
         sprintf(strIdx, "%d", i);
         strcat(strURL, strIdx);
-        curl_global_init( CURL_GLOBAL_ALL );
-        myHandle = curl_easy_init ( );
+        curl_global_init(CURL_GLOBAL_ALL);
+        myHandle = curl_easy_init();
         // Set up a couple initial paramaters that we will not need to mofiy later.
         curl_easy_setopt(myHandle, CURLOPT_USERAGENT, "Mozilla/4.0");
-        curl_easy_setopt(myHandle, CURLOPT_AUTOREFERER, 1 );
-        curl_easy_setopt(myHandle, CURLOPT_FOLLOWLOCATION, 1 );
+        curl_easy_setopt(myHandle, CURLOPT_AUTOREFERER, 1);
+        curl_easy_setopt(myHandle, CURLOPT_FOLLOWLOCATION, 1);
         curl_easy_setopt(myHandle, CURLOPT_COOKIEFILE, "");
         curl_easy_setopt(myHandle, CURLOPT_WRITEFUNCTION, WriteMemoryCallback); // Passing the function pointer to LC
         curl_easy_setopt(myHandle, CURLOPT_WRITEDATA, (void *)&output); // Passing our BufferStruct to LC
 
         // Visit the login page once to obtain a PHPSESSID cookie
         curl_easy_setopt(myHandle, CURLOPT_URL, strURL);
-        curl_easy_perform( myHandle );
+        curl_easy_perform(myHandle);
         // Now, can actually login. First we forge the HTTP referer field, or FP will deny the login
         curl_easy_setopt(myHandle, CURLOPT_REFERER, strURL);
         // Next we tell LibCurl what HTTP POST data to submit
@@ -116,18 +116,18 @@ int main(void)
         strcat(data, "&password=");
         strcat(data, strPassword);
         curl_easy_setopt(myHandle, CURLOPT_POSTFIELDS, data);
-        curl_easy_perform( myHandle );
+        curl_easy_perform(myHandle);
         strURL[0] = '\0';
         FILE *fp;
-        fp = fopen( "data.html", "a");
-        if ( !fp )
+        fp = fopen("data.html", "a");
+        if (!fp)
             return 1;
-        fprintf(fp, output.buffer );
-        fclose( fp );
+        fprintf(fp, output.buffer);
+        fclose(fp);
 
         if (output.buffer)
         {
-            free ( output.buffer );
+            free (output.buffer);
             output.buffer = 0;
             output.size = 0;
         }
