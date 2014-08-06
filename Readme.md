@@ -12,6 +12,6 @@ downloader
  * Ending Index: Ending index
 
 # License
-Copyright (C) 2014 Pranav Prakash, <pranav@pranavprakash.net>
-
 This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+&copy;  2014 Pranav Prakash, <pranav@pranavprakash.net>
