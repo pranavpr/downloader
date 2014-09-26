@@ -25,8 +25,8 @@
 #include <curl/curl.h>
 
 // Define our struct for accepting LCs output
-struct BufferStruct
-{
+ struct BufferStruct
+ {
     char *buffer;
     size_t size;
 };
@@ -56,8 +56,8 @@ int main(void)
     int intStartIdx, intEndIdx;
     char *strURL = malloc (256);
     char *strInitURL = malloc (256);
-    char *strUserid = malloc (16);
-    char *strPassword = malloc (16);
+    char *strUserid = malloc (32);
+    char *strPassword = malloc (32);
     char *strIdx = malloc (16);
     char *data = malloc (64);
 
@@ -69,13 +69,13 @@ int main(void)
         strInitURL[strlen (strInitURL) - 1] = '\0';
     printf("%s", "Enter User ID:");
     /* Get the User ID, with size limit. */
-    fgets (strUserid, 16, stdin);
+    fgets (strUserid, 32, stdin);
     /* Remove trailing newline, if there. */
     if ((strlen(strUserid) > 0) && (strUserid[strlen (strUserid) - 1] == '\n'))
         strUserid[strlen (strUserid) - 1] = '\0';
     printf("%s", "Enter Password:");
     /* Get the Password, with size limit. */
-    fgets (strPassword, 16, stdin);
+    fgets (strPassword, 32, stdin);
     /* Remove trailing newline, if there. */
     if ((strlen(strPassword) > 0) && (strPassword[strlen (strPassword) - 1] == '\n'))
         strPassword[strlen (strPassword) - 1] = '\0';
@@ -101,6 +101,7 @@ int main(void)
         curl_easy_setopt(myHandle, CURLOPT_AUTOREFERER, 1);
         curl_easy_setopt(myHandle, CURLOPT_FOLLOWLOCATION, 1);
         curl_easy_setopt(myHandle, CURLOPT_COOKIEFILE, "");
+        curl_easy_setopt(myHandle, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_easy_setopt(myHandle, CURLOPT_WRITEFUNCTION, WriteMemoryCallback); // Passing the function pointer to LC
         curl_easy_setopt(myHandle, CURLOPT_WRITEDATA, (void *)&output); // Passing our BufferStruct to LC
 
